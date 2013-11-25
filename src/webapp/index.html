@@ -39,16 +39,18 @@
 <body>
 	<div class="intro container-fluid">
 		<h1>Game of Life</h1>
-		<p>Click on cells to make a pattern and proceed with "Step"</p>
+		<p>Click on cells to make a pattern and play."</p>
 
 		<div class="row-fluid">
 
-			<div class="span3 offset3">
-				<button class="btn" id="startButton">Step</button>
-			</div>
-			<div class="span3">
+			<div class="span4"></div>
+			<div class="span4">
+				<button class="btn" id="stepButton">Step</button>
+				<button class="btn" id="startButton">Play</button>
+				<button class="btn" id="stopButton">Pause</button>
 				<button class="btn" id="resetButton">Reset</button>
 			</div>
+			<div class="span4"></div>
 		</div>
 	</div>
 
@@ -64,6 +66,7 @@
 	<script type="text/javascript">
 		var sizeX = 50;
 		var sizeY = 50;
+		var intervalId;
 	
 		function clearTable() {
 			$(".deadNextStep").removeClass("deadNextStep");
@@ -165,8 +168,14 @@
 			});
 		});
 	
-	    $("#startButton").click(function() {
-	   		setInterval("animateGol();", 200);
+		$("#stepButton").click(animateGol);
+		
+	    $("#startButton").click( function() {
+	   		intervalId = setInterval(animateGol, 200);
+	    });
+	    
+	    $("#stopButton").click( function() {
+	    	clearInterval(intervalId);
 	    });
 	
 	    $("#resetButton").click(resetTable);
