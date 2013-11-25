@@ -1,89 +1,90 @@
 <html>
 <head>
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<title>Game of Life</title>
-<style type="text/css">
-
-body{
-    background-color: #d1d1d1;
-}
-.intro{
-	background-color: yellow;
-	margin-left:auto; 
-    margin-right:auto;
-    text-align: center;
-}
-.controls {
-    margin-left:auto; 
-    margin-right:auto;
-}
-.gametable {
-    margin-left:auto;
-    margin-right:auto;
-	width: 70%;
-	height: 70%;
-}
-.cell {
-	background-color: grey;
-}
-.livecell {
-	background-color: yellow;
-}
-.hover {
-	background-color: black;
-}
-.aliveNextStep {}
-.deadNextStep {}
-</style>
+	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<title>Game of Life</title>
+	<style type="text/css">
+	body {
+		background-color: #d1d1d1;
+	}
+	.intro {
+		background-color: yellow;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+	.controls {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.gametable {
+		margin-left: auto;
+		margin-right: auto;
+		width: 70%;
+		height: 70%;
+	}
+	.cell {
+		background-color: grey;
+	}
+	.livecell {
+		background-color: yellow;
+	}
+	.hover {
+		background-color: black;
+	}
+	.aliveNextStep {}
+	.deadNextStep {}
+	</style>
 </head>
+
 <body>
 	<div class="intro container-fluid">
 		<h1>Game of Life</h1>
 		<p>Click on cells to make a pattern and proceed with "Step"</p>
 
-        <div class="row-fluid">
+		<div class="row-fluid">
 
-		<div class="span3 offset3"><button class="btn" id="startButton">Step</button></div>
-        <div class="span3"><button class="btn" id="resetButton">Reset</button></div>
+			<div class="span3 offset3">
+				<button class="btn" id="startButton">Step</button>
+			</div>
+			<div class="span3">
+				<button class="btn" id="resetButton">Reset</button>
+			</div>
 		</div>
-
 	</div>
-	
-	<br>
-	
+
+	<br/>
+
 	<div class="gamefield">
 		<table class="gametable" id="game"></table>
-	</div>	
-</body>
+	</div>
 
-<script type="text/javascript"
-	src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-
-<script type="text/javascript">
-	var sizeX = 50;
-	var sizeY = 50;
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	
-	function clearTable() {
-		$(".deadNextStep").removeClass("deadNextStep");
-		$(".aliveNextStep").removeClass("aliveNextStep");
-	}
+	<script type="text/javascript">
+		var sizeX = 50;
+		var sizeY = 50;
 	
-	function decideForElement(element, liveNeigbours) {
-	    if(element.hasClass("livecell")) {
-	    	if(liveNeigbours < 2 || liveNeigbours >3) {
-	    		element.addClass("deadNextStep");
-	    	}
-	    } else {
-	    	if(liveNeigbours == 3) {
-	    		element.addClass("aliveNextStep");
-	    	}
-	    }
-	}
-	
-	function processElement(row, col) {
-		 var neighBours =[];
-		 var liveNeighbours = 0;
+		function clearTable() {
+			$(".deadNextStep").removeClass("deadNextStep");
+			$(".aliveNextStep").removeClass("aliveNextStep");
+		}
+		
+		function decideForElement(element, liveNeigbours) {
+		    if(element.hasClass("livecell")) {
+		    	if(liveNeigbours < 2 || liveNeigbours >3) {
+		    		element.addClass("deadNextStep");
+		    	}
+		    } else {
+		    	if(liveNeigbours == 3) {
+		    		element.addClass("aliveNextStep");
+		    	}
+		    }
+		}
+		
+		function processElement(row, col) {
+			var neighBours =[];
+			var liveNeighbours = 0;
 			function checkNeighbour(elem) {
 				if(elem.length == 0){
 					return;
@@ -92,83 +93,85 @@ body{
 					 liveNeighbours++;
 				}
 			}
-				//south
-				neighBours.push($("#" + (row + 1) + "-" + col ));
-				//north
-				neighBours.push($("#" + (row - 1) + "-" + col ));
-				//east
-				neighBours.push($("#" + row + "-" + (col - 1)));
-				//west
-				neighBours.push($("#" + row + "-" + (col + 1)));
-				//southeast
-				neighBours.push($("#" + (row + 1) + "-" + (col -1 )));
-				//southwest 
-				neighBours.push($("#" + (row + 1) + "-" + (col + 1 )));
-				//northeast
-				neighBours.push($("#" + (row - 1) + "-" + (col -1 )));
-				//northwest 
-				neighBours.push($("#" + (row - 1) + "-" + (col + 1 )));
-				neighBours.map(checkNeighbour);
-				
-			    var element = $("#"+row+"-"+col);
-			    decideForElement(element, liveNeighbours);
-	}
 	
-	function drawTable() {	
-	$(".aliveNextStep").addClass("livecell");
-	$(".deadNextStep").removeClass("livecell");
-	}
-	
-	function resetTable (){
-		$(".livecell").removeClass("livecell");
-	}
-	
-	function animateGol () {
-		clearTable();
-		for ( var row = 0; row < sizeY; row++) {
-			for ( var col = 0; col < sizeX; col++) {
-			   processElement(row,col);
-			}
+			//south
+			neighBours.push($("#" + (row + 1) + "-" + col ));
+			//north
+			neighBours.push($("#" + (row - 1) + "-" + col ));
+			//east
+			neighBours.push($("#" + row + "-" + (col - 1)));
+			//west
+			neighBours.push($("#" + row + "-" + (col + 1)));
+			//southeast
+			neighBours.push($("#" + (row + 1) + "-" + (col -1 )));
+			//southwest 
+			neighBours.push($("#" + (row + 1) + "-" + (col + 1 )));
+			//northeast
+			neighBours.push($("#" + (row - 1) + "-" + (col -1 )));
+			//northwest 
+			neighBours.push($("#" + (row - 1) + "-" + (col + 1 )));
+			neighBours.map(checkNeighbour);
+			
+			var element = $("#"+row+"-"+col);
+			decideForElement(element, liveNeighbours);
 		}
-		drawTable();
-	}
+	
+		function drawTable() {	
+			$(".aliveNextStep").addClass("livecell");
+			$(".deadNextStep").removeClass("livecell");
+		}
+	
+		function resetTable (){
+			$(".livecell").removeClass("livecell");
+		}
+		
+		function animateGol () {
+			clearTable();
+			for ( var row = 0; row < sizeY; row++) {
+				for ( var col = 0; col < sizeX; col++) {
+				   processElement(row,col);
+				}
+			}
+	
+			drawTable();
+		}
+	
+		$(document).ready(function() {
+			for ( var rows = 0; rows < sizeY ; rows++) {
+				var rowId = "row" + rows;
+				var rowStart = "<tr id=\""+rowId+"\">";
+				$("#game").append(rowStart);
+				for ( var cols = 0; cols < sizeX; cols++) {
+					var cell = "<td class=\"cell\" id=\""+rows+"-"+cols+"\"></td>";
+					$("#" + rowId).append(cell);
+				}
+			}
+	
+			$( ".cell" ).hover(
+				function() {
+				    $( this ).addClass( "hover" );
+				}, function() {
+				    $( this ).removeClass( "hover" );
+				}
+			);
+	
+			$(".cell").click(function() {
+			    if($( this ).hasClass( "livecell" )) {
+			        $( this ).removeClass( "livecell" );
+			    } else {
+			        $( this ).removeClass( "hover" );
+			        $( this ).addClass( "livecell" );
+			    }
+			});
+		});
+	
+	    $("#startButton").click(function() {
+	   		setInterval("animateGol();", 200);
+	    });
+	
+	    $("#resetButton").click(resetTable);
+	</script>
 
-	$(document).ready(
-			function() {
-						for ( var rows = 0; rows < sizeY ; rows++) {
-							var rowId = "row" + rows;
-							var rowStart = "<tr id=\""+rowId+"\">";
-							$("#game").append(rowStart);
-							for ( var cols = 0; cols < sizeX; cols++) {
-								var cell = "<td class=\"cell\" id=\""+rows+"-"+cols+"\"></td>";
-								$("#" + rowId).append(cell);
-							}
-						}
-                $( ".cell" ).hover(
-                        function() {
-                            $( this ).addClass( "hover" );
-                        }, function() {
-                            $( this ).removeClass( "hover" );
-                        }
-                );
-
-                $(".cell").click( function() {
-
-                    if($( this ).hasClass( "livecell" )) {
-                        $( this ).removeClass( "livecell" );
-                    } else {
-                        $( this ).removeClass( "hover" );
-                        $( this ).addClass( "livecell" );
-                    }
-                });
-
-            });
-
-
-    $("#startButton").click(animateGol);
-
-    $("#resetButton").click(resetTable);
-
-</script>
+</body>
 
 </html>
